@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "536672461557",
+    "firebase_url": "https://inclass-8ec02.firebaseio.com",
+    "project_id": "inclass-8ec02",
+    "storage_bucket": "inclass-8ec02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536672461557:android:8078f889149f57595e1bbc",
+        "android_client_info": {
+          "package_name": "com.inclass.student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536672461557-dtjgt0u35pnr3gikpcrm26c1865rctrl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inclass.student",
+            "certificate_hash": "4ca3df9304fdeb0707413433fd5b58b132506bfb"
+          }
+        },
+        {
+          "client_id": "536672461557-f1f0qvp9acibh089933jlle54g4pdne4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMot5ZsHUresQHVVDcoYblwc3lWuL5Lxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536672461557-f1f0qvp9acibh089933jlle54g4pdne4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
