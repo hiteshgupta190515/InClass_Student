@@ -1,10 +1,10 @@
 package com.inclass.student.Fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +25,7 @@ import com.inclass.student.Activities.EditProfile;
 import com.inclass.student.Activities.Login;
 import com.inclass.student.Activities.MainActivity;
 import com.inclass.student.AppController;
+import com.inclass.student.Helpers.CustomDialog;
 import com.inclass.student.Helpers.SessionManagement;
 import com.inclass.student.Helpers.SharedHelper;
 import com.inclass.student.Helpers.URLHelper;
@@ -38,7 +39,7 @@ import info.androidhive.fontawesome.FontDrawable;
 
 public class HomeFragment extends Fragment {
     private static String TAG = "HomeFragment";
-    ProgressDialog progressDialog;
+    CustomDialog progressDialog;
     Context context;
     Activity activity;
     View root;
@@ -72,6 +73,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initComponent() {
+        progressDialog = new CustomDialog(activity);
+
         fab_messages = root.findViewById(R.id.fab_messages);
         FontDrawable drawable = new FontDrawable(activity, R.string.fa_paper_plane_solid, true, false);
         drawable.setTextColor(getResources().getColor(R.color.grey_80));
@@ -119,56 +122,55 @@ public class HomeFragment extends Fragment {
     }
 
     private void logout() {
-
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Loading...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-
-        JSONObject object = new JSONObject();
-        try {
-            object.put("student_id", sessionManagement.getUserDetails().get(URLHelper.USERID));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, URLHelper.logout, object, new Response.Listener<JSONObject>() {
-
+        progressDialog.startLoadingDialog();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
-                progressDialog.dismiss();
+            public void run() {
+                JSONObject object = new JSONObject();
                 try {
-                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                    if (jsonObject.getString("success").equals("1")) {
-                        Toast.makeText(activity, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        sessionManagement.logoutSession();
-                        SharedHelper.clearSharedPreferences(activity);
-                        Intent goToLogin = new Intent(activity, Login.class);
-                        goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(goToLogin);
-                        activity.finish();
-                    }
-                    if (jsonObject.getString("success").equals("0")) {
-                        Toast.makeText(activity, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
+                    object.put("student_id", sessionManagement.getUserDetails().get(URLHelper.USERID));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-                Log.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(activity, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, URLHelper.logout, object, new Response.Listener<JSONObject>() {
 
-        jsonObjReq.setShouldCache(false);
-        AppController.getInstance().addToRequestQueue(jsonObjReq);
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        progressDialog.dismissDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(String.valueOf(response));
+                            if (jsonObject.getString("success").equals("1")) {
+                                Toast.makeText(activity, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                sessionManagement.logoutSession();
+                                Intent goToLogin = new Intent(activity, Login.class);
+                                goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(goToLogin);
+                                activity.finish();
+                            }
+                            if (jsonObject.getString("success").equals("0")) {
+                                Toast.makeText(activity, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismissDialog();
+                        Log.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(activity, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                jsonObjReq.setShouldCache(false);
+                AppController.getInstance().addToRequestQueue(jsonObjReq);
+            }
+        }, 3000);
     }
 
 }
