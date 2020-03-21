@@ -18,8 +18,10 @@ public class URLHelper {
     public static final String ADMISSIONDATE = "created_at";
     public static final String PARENTID = "parent_id";
 
-    public static final String base = "http://inclass.impeccableglobal.com/public/";
+    public static final String base = "http://inclass.markatouch.site/public/";
+    public static final String getSchoolsetting = base + "api/student/schoolsetting";
     public static final String signin = base + "api/student/login";
     public static final String profile = base + "api/student/profile";
+    public static final String logout = base + "api/student/logout";
 
 }

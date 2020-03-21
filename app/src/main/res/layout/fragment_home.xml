@@ -213,6 +213,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/dash_logout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -227,7 +228,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="Notification"
+                            android:text="@string/menu_logout"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
