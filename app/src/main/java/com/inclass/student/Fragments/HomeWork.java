@@ -1,40 +1,34 @@
 package com.inclass.student.Fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.inclass.student.Activities.EditProfile;
 import com.inclass.student.Activities.MainActivity;
 import com.inclass.student.AppController;
 import com.inclass.student.Helpers.CustomDialog;
 import com.inclass.student.Helpers.SessionManagement;
-import com.inclass.student.Helpers.SharedHelper;
 import com.inclass.student.Helpers.URLHelper;
 import com.inclass.student.Models.CompletedHomework;
 import com.inclass.student.Models.PendingHomework;
@@ -65,6 +59,7 @@ public class HomeWork extends Fragment {
     ImageButton bt_toggle_pending, bt_toggle_completed;
     ArrayList<PendingHomework> pendingHomeworkArrayList;
     ArrayList<CompletedHomework> completedHomeworkArrayList;
+    TextView nohomeworkpending, nohomeworkcompleted;
 
     @Override
     public void onAttach(Context context) {
@@ -78,6 +73,7 @@ public class HomeWork extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -138,11 +134,17 @@ public class HomeWork extends Fragment {
         bt_toggle_pending = root.findViewById(R.id.bt_toggle_pending);
         bt_toggle_pending.setImageResource(R.drawable.ic_arrow_drop_up);
         bt_toggle_completed = root.findViewById(R.id.bt_toggle_completed);
+        nohomeworkpending = root.findViewById(R.id.nohomeworkpending);
+        nohomeworkcompleted = root.findViewById(R.id.nohomeworkcompleted);
 
         bt_toggle_pending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 lyt_expand_completed.setVisibility(View.GONE);
+                nohomeworkcompleted.setVisibility(View.GONE);
+                if (pendingHomeworkArrayList.isEmpty()) {
+                    nohomeworkpending.setVisibility(View.VISIBLE);
+                }
                 lyt_expand_pending.setVisibility(View.VISIBLE);
                 bt_toggle_pending.setImageResource(R.drawable.ic_arrow_drop_up);
                 bt_toggle_completed.setImageResource(R.drawable.ic_arrow_drop_down);
@@ -153,6 +155,10 @@ public class HomeWork extends Fragment {
             @Override
             public void onClick(View view) {
                 lyt_expand_pending.setVisibility(View.GONE);
+                nohomeworkpending.setVisibility(View.GONE);
+                if (completedHomeworkArrayList.isEmpty()) {
+                    nohomeworkcompleted.setVisibility(View.VISIBLE);
+                }
                 lyt_expand_completed.setVisibility(View.VISIBLE);
                 bt_toggle_completed.setImageResource(R.drawable.ic_arrow_drop_up);
                 bt_toggle_pending.setImageResource(R.drawable.ic_arrow_drop_down);
@@ -191,10 +197,9 @@ public class HomeWork extends Fragment {
                         for (int i = 0; i < jsonObject.getJSONArray("homework_evaluation").length(); i++) {
                             try {
                                 JSONObject json_homework = jsonObject.getJSONArray("homework_evaluation").getJSONObject(i);
-                                if(json_homework.getString("completed").equals("0")) {
+                                if (json_homework.getString("completed").equals("0")) {
                                     PendingHomework pendingHomework = new PendingHomework();
                                     pendingHomework.setId(json_homework.getString("id"));
-                                    pendingHomework.setHomework_id(json_homework.getString("homework_id"));
                                     pendingHomework.setCompleted(json_homework.getString("completed"));
                                     pendingHomework.setHomework_date(json_homework.getString("homework_date"));
                                     pendingHomework.setSubmission_date(json_homework.getString("submission_date"));
@@ -202,10 +207,9 @@ public class HomeWork extends Fragment {
                                     pendingHomework.setSubject_name(json_homework.getString("subject_name"));
                                     pendingHomework.setSubjectgrp_name(json_homework.getString("subjectgrp_name"));
                                     pendingHomeworkArrayList.add(pendingHomework);
-                                } else if(json_homework.getString("completed").equals("1")) {
+                                } else if (json_homework.getString("completed").equals("1")) {
                                     CompletedHomework completedHomework = new CompletedHomework();
                                     completedHomework.setId(json_homework.getString("id"));
-                                    completedHomework.setHomework_id(json_homework.getString("homework_id"));
                                     completedHomework.setCompleted(json_homework.getString("completed"));
                                     completedHomework.setHomework_date(json_homework.getString("homework_date"));
                                     completedHomework.setSubmission_date(json_homework.getString("submission_date"));
@@ -219,15 +223,17 @@ public class HomeWork extends Fragment {
                             }
 
                         }
-                        PendingListAdapter pendingListAdapter = new PendingListAdapter(getActivity(),pendingHomeworkArrayList);
+
+                        PendingListAdapter pendingListAdapter = new PendingListAdapter(getActivity(), pendingHomeworkArrayList);
                         pendingList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         pendingList.setAdapter(pendingListAdapter);
                         pendingListAdapter.notifyDataSetChanged();
 
-                        CompletedListAdapter completedListAdapter = new CompletedListAdapter(getActivity(),completedHomeworkArrayList);
+                        CompletedListAdapter completedListAdapter = new CompletedListAdapter(getActivity(), completedHomeworkArrayList);
                         completedList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                         completedList.setAdapter(completedListAdapter);
                         completedListAdapter.notifyDataSetChanged();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -273,7 +279,17 @@ public class HomeWork extends Fragment {
             holder.pendinghmlayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    displayMessage("Success");
+                    HomeworkDetail homeworkDetail = new HomeworkDetail();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("hw_completed", p.getCompleted());
+                    arguments.putString("hw_subjectname", p.getSubject_name());
+                    arguments.putString("hw_description", p.getDescription());
+                    arguments.putString("hw_submissiondate", p.getSubmission_date());
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, homeworkDetail);
+                    fragmentTransaction.addToBackStack(null).commit();
+                    homeworkDetail.setArguments(arguments);
                 }
             });
 
@@ -284,9 +300,10 @@ public class HomeWork extends Fragment {
             return pendingHomeworks.size();
 
         }
+
         class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView hm_date,hm_subdate;
+            TextView hm_date, hm_subdate;
             CardView pendinghmlayout;
 
             MyViewHolder(View itemView) {
@@ -326,7 +343,17 @@ public class HomeWork extends Fragment {
             holder.pendinghmlayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    displayMessage("Success");
+                    HomeworkDetail homeworkDetail = new HomeworkDetail();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("hw_completed", p.getCompleted());
+                    arguments.putString("hw_subjectname", p.getSubject_name());
+                    arguments.putString("hw_description", p.getDescription());
+                    arguments.putString("hw_submissiondate", p.getSubmission_date());
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, homeworkDetail);
+                    fragmentTransaction.addToBackStack(null).commit();
+                    homeworkDetail.setArguments(arguments);
                 }
             });
         }
@@ -336,9 +363,10 @@ public class HomeWork extends Fragment {
             return completedHomeworks.size();
 
         }
+
         class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView hm_date,hm_subdate;
+            TextView hm_date, hm_subdate;
             CardView pendinghmlayout;
 
             MyViewHolder(View itemView) {
@@ -350,7 +378,7 @@ public class HomeWork extends Fragment {
         }
     }
 
-    private void displayMessage(String message){
+    private void displayMessage(String message) {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_layout, (ViewGroup) root.findViewById(R.id.custom_toast_container));
 
