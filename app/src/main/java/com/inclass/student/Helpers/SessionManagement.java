@@ -12,12 +12,14 @@ import static com.inclass.student.Helpers.URLHelper.PARENTID;
 import static com.inclass.student.Helpers.URLHelper.PREFS_NAME;
 import static com.inclass.student.Helpers.URLHelper.PREFS_NAME2;
 import static com.inclass.student.Helpers.URLHelper.USERCLASS;
+import static com.inclass.student.Helpers.URLHelper.USERCLASSID;
 import static com.inclass.student.Helpers.URLHelper.USEREMAIL;
 import static com.inclass.student.Helpers.URLHelper.USERFNAME;
 import static com.inclass.student.Helpers.URLHelper.USERID;
 import static com.inclass.student.Helpers.URLHelper.USERLNAME;
 import static com.inclass.student.Helpers.URLHelper.USERPHONE;
 import static com.inclass.student.Helpers.URLHelper.USERSECTION;
+import static com.inclass.student.Helpers.URLHelper.USERSECTIONID;
 
 /**
  * Created by Hitesh Gupta on 31/1/2020.
@@ -45,7 +47,8 @@ public class SessionManagement {
     }
 
     public void createLoginSession(String user_id, String user_fname, String user_lname, String user_email,
-                                   String user_phone, String user_class, String user_section, String user_admissionno,
+                                   String user_phone, String user_classid, String user_class, String user_sectionid,
+                                   String user_section, String user_admissionno,
                                    String user_admissiondate, String user_parentid) {
 
         editor.putBoolean(IS_LOGIN, true);
@@ -54,7 +57,9 @@ public class SessionManagement {
         editor.putString(USERLNAME, user_lname);
         editor.putString(USEREMAIL, user_email);
         editor.putString(USERPHONE, user_phone);
+        editor.putString(USERCLASSID, user_classid);
         editor.putString(USERCLASS, user_class);
+        editor.putString(USERSECTIONID, user_sectionid);
         editor.putString(USERSECTION, user_section);
         editor.putString(ADMISSIONNO, user_admissionno);
         editor.putString(ADMISSIONDATE, user_admissiondate);
@@ -75,7 +80,9 @@ public class SessionManagement {
         user.put(USERLNAME, prefs.getString(USERLNAME, null));
         user.put(USEREMAIL, prefs.getString(USEREMAIL, null));
         user.put(USERPHONE, prefs.getString(USERPHONE, null));
+        user.put(USERCLASSID, prefs.getString(USERCLASSID, null));
         user.put(USERCLASS, prefs.getString(USERCLASS, null));
+        user.put(USERSECTIONID, prefs.getString(USERSECTIONID, null));
         user.put(USERSECTION, prefs.getString(USERSECTION, null));
         user.put(ADMISSIONNO, prefs.getString(ADMISSIONNO, null));
         user.put(ADMISSIONDATE, prefs.getString(ADMISSIONDATE, null));

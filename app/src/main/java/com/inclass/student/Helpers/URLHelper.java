@@ -12,7 +12,9 @@ public class URLHelper {
 
     public static final String USEREMAIL = "email";
     public static final String USERPHONE = "phone";
+    public static final String USERCLASSID = "class_id";
     public static final String USERCLASS = "class_name";
+    public static final String USERSECTIONID = "section_id";
     public static final String USERSECTION = "section_name";
     public static final String ADMISSIONNO = "addmission_no";
     public static final String ADMISSIONDATE = "created_at";
@@ -23,5 +25,6 @@ public class URLHelper {
     public static final String signin = base + "api/student/login";
     public static final String profile = base + "api/student/profile";
     public static final String logout = base + "api/student/logout";
+    public static final String homework = base + "api/student/gethomework";
 
 }

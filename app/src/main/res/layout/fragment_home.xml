@@ -68,7 +68,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_messages"
+                            android:id="@+id/dash_subjects"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -83,7 +83,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="Messages"
+                            android:text="@string/menu_subjects"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
@@ -96,7 +96,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_dashboard"
+                            android:id="@+id/dash_homework"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tint="@color/grey_80"
@@ -110,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="Dashboard"
+                            android:text="@string/menu_homework"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>

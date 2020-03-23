@@ -94,14 +94,16 @@ public class Login extends AppCompatActivity {
                         String user_lname = jsonObject.optJSONObject("user").getString("lname");
                         String user_email = jsonObject.optJSONObject("user").getString("email");
                         String user_phone = jsonObject.optJSONObject("user").getString("phone");
+                        String user_classid = jsonObject.optJSONObject("user").getString("class_id");
                         String user_class = jsonObject.optJSONObject("user").getString("class_name");
+                        String user_sectionid = jsonObject.optJSONObject("user").getString("section_id");
                         String user_section = jsonObject.optJSONObject("user").getString("section_name");
                         String user_admissionno = jsonObject.optJSONObject("user").getString("addmission_no");
                         String user_admissiondate = jsonObject.optJSONObject("user").getString("created_at");
                         String user_parentid = jsonObject.optJSONObject("user").getString("parent_id");
 
                         sessionManagement.createLoginSession(user_id, user_fname, user_lname, user_email,
-                                user_phone, user_class, user_section, user_admissionno, user_admissiondate,
+                                user_phone, user_classid,user_class, user_sectionid,user_section, user_admissionno, user_admissiondate,
                                 user_parentid);
                         startActivity(new Intent(Login.this, MainActivity.class));
                     } else {

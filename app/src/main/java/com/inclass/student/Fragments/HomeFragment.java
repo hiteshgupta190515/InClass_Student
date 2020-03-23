@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,7 +45,7 @@ public class HomeFragment extends Fragment {
     Context context;
     Activity activity;
     View root;
-    FloatingActionButton fab_dashboard, fab_messages, dash_logout;
+    FloatingActionButton dash_homework, dash_subjects, dash_logout;
     CircularImageView profile_image;
     TextView home_student_name, home_class_section;
     SessionManagement sessionManagement;
@@ -75,10 +77,25 @@ public class HomeFragment extends Fragment {
     private void initComponent() {
         progressDialog = new CustomDialog(activity);
 
-        fab_messages = root.findViewById(R.id.fab_messages);
-        FontDrawable drawable = new FontDrawable(activity, R.string.fa_paper_plane_solid, true, false);
+        dash_subjects = root.findViewById(R.id.dash_subjects);
+        FontDrawable drawable = new FontDrawable(activity, R.string.fa_book_solid, true, false);
         drawable.setTextColor(getResources().getColor(R.color.grey_80));
-        fab_messages.setImageDrawable(drawable);
+        dash_subjects.setImageDrawable(drawable);
+
+        dash_homework = root.findViewById(R.id.dash_homework);
+        FontDrawable dash_homework_icon = new FontDrawable(activity, R.string.fa_file_word_solid, true, false);
+        drawable.setTextColor(getResources().getColor(R.color.grey_80));
+        dash_homework.setImageDrawable(dash_homework_icon);
+        dash_homework.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HomeWork homeWork = new HomeWork();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame, homeWork);
+                fragmentTransaction.addToBackStack(null).commit();
+            }
+        });
 
         dash_logout = root.findViewById(R.id.dash_logout);
         FontDrawable dash_logout_icon = new FontDrawable(activity, R.string.fa_power_off_solid, true, false);
@@ -170,7 +187,7 @@ public class HomeFragment extends Fragment {
                 jsonObjReq.setShouldCache(false);
                 AppController.getInstance().addToRequestQueue(jsonObjReq);
             }
-        }, 3000);
+        }, 2000);
     }
 
 }

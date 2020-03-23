@@ -1,5 +1,12 @@
 package com.inclass.student.Activities;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -7,21 +14,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.tabs.TabLayout;
 import com.inclass.student.AppController;
-import com.inclass.student.Fragments.StudentProfileFragment;
 import com.inclass.student.Fragments.StudentParentProfileFragment;
+import com.inclass.student.Fragments.StudentProfileFragment;
+import com.inclass.student.Helpers.CustomDialog;
 import com.inclass.student.Helpers.SessionManagement;
 import com.inclass.student.Helpers.URLHelper;
 import com.inclass.student.R;
@@ -36,20 +37,20 @@ import java.util.List;
 public class EditProfile extends AppCompatActivity {
 
     private static String TAG = "EditProfile";
-    ProgressDialog progressDialog;
+    CustomDialog progressDialog;
     private ViewPager view_pager;
     private TabLayout tab_layout;
     int[] studentHeaderArray = {R.string.profile_admissionno, R.string.profile_admissiondate, R.string.profile_dob,
-            R.string.profile_phone, R.string.profile_email,R.string.profile_presentadd,R.string.profile_premadd,
-            R.string.profile_bloodgroup,R.string.profile_religion,R.string.profile_caste,
-            R.string.profile_height,R.string.profile_weight,R.string.profile_gender};
+            R.string.profile_phone, R.string.profile_email, R.string.profile_presentadd, R.string.profile_premadd,
+            R.string.profile_bloodgroup, R.string.profile_religion, R.string.profile_caste,
+            R.string.profile_height, R.string.profile_weight, R.string.profile_gender};
     int[] parentHeaderArray = {R.string.profile_father, R.string.profile_mother, R.string.profile_primaryph,
             R.string.profile_secondaryph, R.string.profile_fatheroccup, R.string.profile_motheroccup,
             R.string.profile_address};
     SessionManagement sessionManagement;
     ArrayList<String> personalValues = new ArrayList<String>();
     ArrayList<String> parentValues = new ArrayList<String>();
-    TextView student_name,class_section;
+    TextView student_name, class_section;
     CircularImageView student_image;
 
     @Override
@@ -61,14 +62,17 @@ public class EditProfile extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //Session Initaited
         sessionManagement = new SessionManagement(EditProfile.this);
-        
-        progressDialog = new ProgressDialog(EditProfile.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-        getDataFromApi();
-        
+        progressDialog = new CustomDialog(EditProfile.this);
+        progressDialog.startLoadingDialog();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getDataFromApi();
+            }
+        }, 2000);
+
+
         view_pager = (ViewPager) findViewById(R.id.view_pager);
 
 
@@ -78,7 +82,7 @@ public class EditProfile extends AppCompatActivity {
         class_section = findViewById(R.id.class_section);
         student_image = findViewById(R.id.student_image);
 
-        student_name.setText(sessionManagement.getUserDetails().get(URLHelper.USERFNAME)+" "+sessionManagement.getUserDetails().get(URLHelper.USERLNAME));
+        student_name.setText(sessionManagement.getUserDetails().get(URLHelper.USERFNAME) + " " + sessionManagement.getUserDetails().get(URLHelper.USERLNAME));
         class_section.setText(sessionManagement.getUserDetails().get(URLHelper.USERCLASS) + " " + sessionManagement.getUserDetails().get(URLHelper.USERSECTION));
     }
 
@@ -96,7 +100,7 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
-                progressDialog.dismiss();
+                progressDialog.dismissDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(String.valueOf(response));
                     if (jsonObject.getString("success").equals("1")) {
@@ -111,8 +115,8 @@ public class EditProfile extends AppCompatActivity {
                         personalValues.add(jsonObject.optJSONObject("student").getString("blood_group"));
                         personalValues.add(jsonObject.optJSONObject("student").getString("religion"));
                         personalValues.add(jsonObject.optJSONObject("student").getString("caste"));
-                        personalValues.add(jsonObject.optJSONObject("student").getString("height"));
-                        personalValues.add(jsonObject.optJSONObject("student").getString("weight"));
+                        personalValues.add(jsonObject.optJSONObject("student").getString("height") + " " + "cm");
+                        personalValues.add(jsonObject.optJSONObject("student").getString("weight")+ " " + "kg");
                         personalValues.add(jsonObject.optJSONObject("student").getString("gender"));
 
                         parentValues.add(jsonObject.optJSONObject("parent").getString("father_name"));
@@ -134,7 +138,7 @@ public class EditProfile extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
+                progressDialog.dismissDialog();
                 Log.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -146,7 +150,7 @@ public class EditProfile extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        Log.e("arrays",personalValues.toString());
+        Log.e("arrays", personalValues.toString());
         adapter.addFragment(new StudentProfileFragment().newInstance(studentHeaderArray, personalValues), getResources().getString(R.string.login_student));
         adapter.addFragment(new StudentParentProfileFragment().newInstance(parentHeaderArray, parentValues), getResources().getString(R.string.login_parent));
         viewPager.setAdapter(adapter);
@@ -183,7 +187,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         Intent startmain = new Intent(EditProfile.this, MainActivity.class);
         startmain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(startmain);
