@@ -23,9 +23,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.inclass.student.Activities.Attendance;
 import com.inclass.student.Activities.EditProfile;
 import com.inclass.student.Activities.Login;
 import com.inclass.student.Activities.MainActivity;
+import com.inclass.student.Activities.Subjects;
+import com.inclass.student.Activities.Timetable;
 import com.inclass.student.AppController;
 import com.inclass.student.Helpers.CustomDialog;
 import com.inclass.student.Helpers.SessionManagement;
@@ -45,7 +48,7 @@ public class HomeFragment extends Fragment {
     Context context;
     Activity activity;
     View root;
-    FloatingActionButton dash_homework, dash_subjects, dash_logout;
+    FloatingActionButton dash_homework, dash_subjects, dash_attendance,dash_timetable,dash_logout;
     CircularImageView profile_image;
     TextView home_student_name, home_class_section;
     SessionManagement sessionManagement;
@@ -81,6 +84,13 @@ public class HomeFragment extends Fragment {
         FontDrawable drawable = new FontDrawable(activity, R.string.fa_book_solid, true, false);
         drawable.setTextColor(getResources().getColor(R.color.grey_80));
         dash_subjects.setImageDrawable(drawable);
+        dash_subjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent subjects_intent = new Intent(getActivity(), Subjects.class);
+                startActivity(subjects_intent);
+            }
+        });
 
         dash_homework = root.findViewById(R.id.dash_homework);
         FontDrawable dash_homework_icon = new FontDrawable(activity, R.string.fa_file_word_solid, true, false);
@@ -97,6 +107,29 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        dash_timetable = root.findViewById(R.id.dash_timetable);
+        FontDrawable dash_timetable_icon = new FontDrawable(activity, R.string.fa_calendar_week_solid, true, false);
+        dash_timetable_icon.setTextColor(getResources().getColor(R.color.grey_80));
+        dash_timetable.setImageDrawable(dash_timetable_icon);
+        dash_timetable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startmain = new Intent(getActivity(), Timetable.class);
+                startActivity(startmain);
+            }
+        });
+
+        dash_attendance = root.findViewById(R.id.dash_attendance);
+        FontDrawable dash_attendance_icon = new FontDrawable(activity, R.string.fa_calendar_alt, true, false);
+        drawable.setTextColor(getResources().getColor(R.color.grey_80));
+        dash_attendance.setImageDrawable(dash_attendance_icon);
+        dash_attendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startmain = new Intent(getActivity(), Attendance.class);
+                startActivity(startmain);
+            }
+        });
         dash_logout = root.findViewById(R.id.dash_logout);
         FontDrawable dash_logout_icon = new FontDrawable(activity, R.string.fa_power_off_solid, true, false);
         drawable.setTextColor(getResources().getColor(R.color.grey_80));

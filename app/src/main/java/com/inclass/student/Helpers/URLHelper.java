@@ -26,5 +26,7 @@ public class URLHelper {
     public static final String profile = base + "api/student/profile";
     public static final String logout = base + "api/student/logout";
     public static final String homework = base + "api/student/gethomework";
-
+    public static final String attendance = base + "api/student/student_attendance";
+    public static final String timetable = base + "api/student/get_classtimetable";
+    public static final String subjects = base + "api/student/get_subjects";
 }

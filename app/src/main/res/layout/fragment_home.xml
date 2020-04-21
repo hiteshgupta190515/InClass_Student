@@ -123,6 +123,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/dash_attendance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -137,7 +138,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="Dashboard"
+                            android:text="@string/menu_attendance"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
@@ -159,6 +160,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/dash_timetable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -173,7 +175,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="Friends"
+                            android:text="Class Timetable"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
