@@ -24,9 +24,11 @@ import com.inclass.student.Fragments.StudentParentProfileFragment;
 import com.inclass.student.Fragments.StudentProfileFragment;
 import com.inclass.student.Helpers.CustomDialog;
 import com.inclass.student.Helpers.SessionManagement;
+import com.inclass.student.Helpers.SharedHelper;
 import com.inclass.student.Helpers.URLHelper;
 import com.inclass.student.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,6 +86,11 @@ public class EditProfile extends AppCompatActivity {
 
         student_name.setText(sessionManagement.getUserDetails().get(URLHelper.USERFNAME) + " " + sessionManagement.getUserDetails().get(URLHelper.USERLNAME));
         class_section.setText(sessionManagement.getUserDetails().get(URLHelper.USERCLASS) + " " + sessionManagement.getUserDetails().get(URLHelper.USERSECTION));
+        Picasso.get()
+                .load(URLHelper.base + "public/image/" + SharedHelper.getKey(getApplicationContext(), "student_img"))
+                .placeholder(R.drawable.photo_male_8)
+                .error(R.drawable.photo_male_8)
+                .into(student_image);
     }
 
     private void getDataFromApi() {
@@ -116,7 +123,7 @@ public class EditProfile extends AppCompatActivity {
                         personalValues.add(jsonObject.optJSONObject("student").getString("religion"));
                         personalValues.add(jsonObject.optJSONObject("student").getString("caste"));
                         personalValues.add(jsonObject.optJSONObject("student").getString("height") + " " + "cm");
-                        personalValues.add(jsonObject.optJSONObject("student").getString("weight")+ " " + "kg");
+                        personalValues.add(jsonObject.optJSONObject("student").getString("weight") + " " + "kg");
                         personalValues.add(jsonObject.optJSONObject("student").getString("gender"));
 
                         parentValues.add(jsonObject.optJSONObject("parent").getString("father_name"));

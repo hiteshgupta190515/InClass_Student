@@ -101,6 +101,7 @@ public class Login extends AppCompatActivity {
                         String user_admissionno = jsonObject.optJSONObject("user").getString("addmission_no");
                         String user_admissiondate = jsonObject.optJSONObject("user").getString("created_at");
                         String user_parentid = jsonObject.optJSONObject("user").getString("parent_id");
+                        SharedHelper.putKey(getApplicationContext(),"student_img",jsonObject.optJSONObject("user").getString("profile_img"));
 
                         sessionManagement.createLoginSession(user_id, user_fname, user_lname, user_email,
                                 user_phone, user_classid,user_class, user_sectionid,user_section, user_admissionno, user_admissiondate,

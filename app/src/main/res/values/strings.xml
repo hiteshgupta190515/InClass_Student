@@ -14,6 +14,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="menu_notice">Notice</string>
+    <string name="menu_leaves">Leaves</string>
     <string name="menu_logout">Logout</string>
     <!--    Login   -->
     <string name="login">Login</string>
@@ -57,6 +59,11 @@
         when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
         and more recently withdesktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
 
+    <string name="leavetypesetting">Leave Type</string>
+    <string name="choosefilename">Choose File Name</string>
+    <string name="choosefilebtn">Choose File</string>
+    <string name="per_camera_and_write_storage">Please Grant Permissions to upload work image</string>
+    <string name="valid_image">No image found</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

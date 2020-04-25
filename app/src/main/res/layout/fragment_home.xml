@@ -150,7 +150,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:padding="@dimen/spacing_large">
+                    android:padding="@dimen/spacing_large"
+                    >
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -169,13 +170,16 @@
                             app:elevation="1dp"
                             app:fabSize="normal"
                             app:rippleColor="@color/deep_orange_400"
-                            app:srcCompat="@drawable/ic_peoples" />
+                            app:srcCompat="@drawable/ic_peoples"
+                            />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:text="Class Timetable"
+                            android:gravity="center"
+                            android:minHeight="40dp"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
@@ -188,6 +192,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/dash_downloadcenter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -199,10 +204,12 @@
                             app:srcCompat="@drawable/ic_whatshot" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="Feed"
+                            android:gravity="center"
+                            android:text="Download Center"
+                            android:minHeight="40dp"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
@@ -215,7 +222,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/dash_logout"
+                            android:id="@+id/dash_notice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -230,12 +237,78 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
-                            android:text="@string/menu_logout"
+                            android:text="@string/menu_notice"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_large"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/dash_leaves"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:tint="@color/grey_80"
+                    app:backgroundTint="@android:color/white"
+                    app:elevation="1dp"
+                    app:fabSize="normal"
+                    app:rippleColor="@color/deep_orange_400"
+                    app:srcCompat="@drawable/ic_notifications" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/menu_leaves"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/dash_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:tint="@color/grey_80"
+                    app:backgroundTint="@android:color/white"
+                    app:elevation="1dp"
+                    app:fabSize="normal"
+                    app:rippleColor="@color/deep_orange_400"
+                    app:srcCompat="@drawable/ic_notifications" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/menu_logout"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
             </LinearLayout>
 </LinearLayout>

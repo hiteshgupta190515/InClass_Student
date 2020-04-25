@@ -29,4 +29,10 @@ public class URLHelper {
     public static final String attendance = base + "api/student/student_attendance";
     public static final String timetable = base + "api/student/get_classtimetable";
     public static final String subjects = base + "api/student/get_subjects";
+    public static final String downloadcenter = base + "api/student/get_downloadcenter";
+    public static final String notice = base + "api/student/getallnotice";
+    public static final String getLeaveType = base + "api/admin/get_leavetype";
+    public static final String postLeaves = base + "api/student/studentleaves";
+    public static final String getLeaves = base + "api/student/getstudentleaves";
+    public static final String deleteLeaves = base + "api/student/delete_student_leaves";
 }

@@ -1,8 +1,5 @@
 package com.inclass.student.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -62,13 +62,17 @@ public class Attendance extends AppCompatActivity {
             @Override
             public void onDayClick(EventDay eventDay) {
                 Log.e("Event", String.valueOf(eventDay.isEnabled()));
-                if(eventDay.isEnabled()) {
+                if (eventDay.isEnabled()) {
 //                Log.e("Event",eventDay.getNote()+" <--");
-                remark_layout.setVisibility(View.VISIBLE);
-                if(eventDay.getNote()==(null))
-                    remarks.setText("No remarks");
-                else
-                    remarks.setText(eventDay.getNote());
+                    remark_layout.setVisibility(View.VISIBLE);
+                    if (eventDay.getNote() == (null))
+                        remarks.setText("No remarks");
+                    else {
+                        if (eventDay.getNote().equals("null"))
+                            remarks.setText("No remarks");
+                        else
+                            remarks.setText(eventDay.getNote());
+                    }
                 }
             }
         });
@@ -106,11 +110,11 @@ public class Attendance extends AppCompatActivity {
                                 date = sdf.parse(json_homework.getString("attendance_date"));
                                 calendar.setTime(date);
                                 Log.e("Day===>", String.valueOf(date));
-                                if(json_homework.getString("attendance").equals("P"))
+                                if (json_homework.getString("attendance").equals("P"))
                                     events.add(new EventDay(calendar, R.drawable.present_letter, json_homework.getString("remark")));
-                                else if(json_homework.getString("attendance").equals("A"))
+                                else if (json_homework.getString("attendance").equals("A"))
                                     events.add(new EventDay(calendar, R.drawable.absent_letter, json_homework.getString("remark")));
-                                else if(json_homework.getString("attendance").equals("H"))
+                                else if (json_homework.getString("attendance").equals("H"))
                                     events.add(new EventDay(calendar, R.drawable.half_letter, json_homework.getString("remark")));
                             } catch (JSONException | ParseException e) {
                                 e.printStackTrace();

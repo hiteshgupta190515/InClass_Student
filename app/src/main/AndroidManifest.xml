@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".AppController"
@@ -14,7 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Subjects"></activity>
+        <activity android:name=".Activities.ApplyLeaves"></activity>
+        <activity android:name=".Activities.Leaves" />
+        <activity android:name=".Activities.Notice" />
+        <activity android:name=".Activities.DownloadCenter" />
+        <activity android:name=".Activities.Subjects" />
         <activity android:name=".Activities.Timetable" />
         <activity android:name=".Activities.Attendance" />
 

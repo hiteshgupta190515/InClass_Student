@@ -24,9 +24,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.inclass.student.Activities.Attendance;
+import com.inclass.student.Activities.DownloadCenter;
 import com.inclass.student.Activities.EditProfile;
+import com.inclass.student.Activities.Leaves;
 import com.inclass.student.Activities.Login;
 import com.inclass.student.Activities.MainActivity;
+import com.inclass.student.Activities.Notice;
 import com.inclass.student.Activities.Subjects;
 import com.inclass.student.Activities.Timetable;
 import com.inclass.student.AppController;
@@ -36,6 +39,7 @@ import com.inclass.student.Helpers.SharedHelper;
 import com.inclass.student.Helpers.URLHelper;
 import com.inclass.student.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +52,8 @@ public class HomeFragment extends Fragment {
     Context context;
     Activity activity;
     View root;
-    FloatingActionButton dash_homework, dash_subjects, dash_attendance,dash_timetable,dash_logout;
+    FloatingActionButton dash_homework, dash_subjects, dash_attendance, dash_timetable, dash_downloadcenter, dash_notice,
+            dash_leaves, dash_logout;
     CircularImageView profile_image;
     TextView home_student_name, home_class_section;
     SessionManagement sessionManagement;
@@ -130,6 +135,43 @@ public class HomeFragment extends Fragment {
                 startActivity(startmain);
             }
         });
+
+        dash_downloadcenter = root.findViewById(R.id.dash_downloadcenter);
+        FontDrawable downloadcenter = new FontDrawable(activity, R.string.fa_file_download_solid, true, false);
+        downloadcenter.setTextColor(getResources().getColor(R.color.grey_80));
+        dash_downloadcenter.setImageDrawable(downloadcenter);
+        dash_downloadcenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent subjects_intent = new Intent(getActivity(), DownloadCenter.class);
+                startActivity(subjects_intent);
+            }
+        });
+
+        dash_notice = root.findViewById(R.id.dash_notice);
+        FontDrawable notice_drawable = new FontDrawable(activity, R.string.fa_flag, true, false);
+        notice_drawable.setTextColor(getResources().getColor(R.color.grey_80));
+        dash_notice.setImageDrawable(notice_drawable);
+        dash_notice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent notice_intent = new Intent(getActivity(), Notice.class);
+                startActivity(notice_intent);
+            }
+        });
+
+        dash_leaves = root.findViewById(R.id.dash_leaves);
+        FontDrawable leaves_drawable = new FontDrawable(activity, R.string.fa_file_signature_solid, true, false);
+        leaves_drawable.setTextColor(getResources().getColor(R.color.grey_80));
+        dash_leaves.setImageDrawable(leaves_drawable);
+        dash_leaves.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent notice_intent = new Intent(getActivity(), Leaves.class);
+                startActivity(notice_intent);
+            }
+        });
+
         dash_logout = root.findViewById(R.id.dash_logout);
         FontDrawable dash_logout_icon = new FontDrawable(activity, R.string.fa_power_off_solid, true, false);
         drawable.setTextColor(getResources().getColor(R.color.grey_80));
@@ -142,6 +184,11 @@ public class HomeFragment extends Fragment {
         });
 
         profile_image = root.findViewById(R.id.home_profile_image);
+        Picasso.get()
+                .load(URLHelper.base + "public/image/" + SharedHelper.getKey(getActivity(), "student_img"))
+                .placeholder(R.drawable.photo_male_8)
+                .error(R.drawable.photo_male_8)
+                .into(profile_image);
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
